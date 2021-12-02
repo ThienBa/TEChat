@@ -54,7 +54,14 @@ io.on("connection", (socket) => {
         //Handle share location 
         socket.on("share location from client to server", ({ latitude, longitude }) => {
             // const linkLocation = `https://www.google.com/maps?q=${latitude},${longitude}`;
-            io.to(room).emit("share location from server to client", createMessages({ latitude, longitude }, avatar));
+            const userList = getUserList();
+            const indexUser = userList.findIndex(user => user.id === socket.id);
+            if (indexUser) {
+                socket.emit("share userself location from server to client", createMessages({ latitude, longitude }, avatar));
+                socket.broadcast.to(room).emit("share location from server to client", createMessages({ latitude, longitude }, avatar));
+            } else {
+                io.to(room).emit("share location from server to client", createMessages({ latitude, longitude }, avatar));
+            }
         })
 
         //Handle user list
