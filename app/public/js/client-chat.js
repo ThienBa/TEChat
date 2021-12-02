@@ -9,6 +9,9 @@ document.getElementById("formChat").addEventListener("submit", (e) => {
         console.log("Sent");
     }
     socket.emit('send message chat from client to server', messageText, acknowledgements);
+
+    //Clear input message
+    document.getElementById("inputChat").value = "";
 });
 
 socket.on('send message chat from server to client', (message) => {
@@ -28,8 +31,6 @@ socket.on('send message chat from server to client', (message) => {
         </div>
     `;
     document.getElementById("listMessage").innerHTML += contentHtmlMessage;
-    //Clear input message
-    document.getElementById("inputChat").value = "";
 });
 
 //Send message userself chat
@@ -50,8 +51,6 @@ socket.on("send message userself chat from server to client", (message) => {
             </div> 
     `;
     document.getElementById("listMessage").innerHTML += contentHtmlMessage;
-    //Clear input message
-    document.getElementById("inputChat").value = "";
 });
 
 //Share location
